@@ -1,5 +1,6 @@
 import json
 import os
+from typing import Tuple, Optional, Union, Dict, List
 
 MENU = '''
 ------------------------------
@@ -17,8 +18,13 @@ MENU = '''
 # поля в файле: id, firstname, surname, phone_number, comment
 
 
-# 1 Выбор файла для дальнейшей работы
-def choose_and_open_file():
+def choose_and_open_file() -> Optional[Tuple[Dict[str, List[Dict[str, Union[int, str]]]], str]]:
+    '''
+    Выбор файла для дальнейшей работы
+
+    Returns:
+        Tuple (optional): Список контактов
+    '''
     k = 1
     while k:
         filename = input('''
@@ -51,14 +57,29 @@ def choose_and_open_file():
     return contacts, filename
 
 
-# 2 Сохранение информации в файл после работы
-def save_info_in_file(filename, contacts):
+def save_info_in_file(filename: str, contacts: Dict[str, List[Dict[str, Union[int, str]]]]):
+    '''
+    Сохранение информации в файл после работы
+
+    Args:
+        filename (str): наименование файла
+        contacts (dict): словарь контактов для добавления в файл
+
+    Returns
+        None
+    '''
     with open(filename, "w", encoding="utf-8") as file:
         json.dump(contacts, file)
     print("Данные успешно сохранены")
 
 
-def show_contact(user):
+def show_contact(user: dict) -> None:
+    '''
+    Вывод данных о контакте в консоль
+
+    Args:
+        user (dict): словарь с данными о контакте
+    '''
     print('Контакт: ', user['id'], end='\n')
     print('Имя: ', user['name'])
     print('Фамилия: ', user['surname'])
@@ -66,23 +87,45 @@ def show_contact(user):
     print('Комментарий: ', user['comment'], end='\n\n')
 
 
-# 3 Вывод списка контактов в консоль
-def show_all_contacts(contacts):
+def show_all_contacts(contacts: Dict[str, List[Dict[str, Union[str, int]]]]) -> None:
+    '''
+    Вывод списка контактов в консоль
+
+    Args:
+        contacts (dict): первоначальный словарь с контактами
+    '''
     for user in contacts['users']:
         show_contact(user)
     print("Конец записной книжки\n")
 
 
-def max_id(contact_list):
+def max_id(contacts: Dict[str, List[Dict[str, Union[str, int]]]]) -> int:
+    '''
+    Поиск наибольшего айдишника
+
+    Args:
+        contacts (dict): первоначальный словарь с контактами
+
+    Returns:
+        max_id (int): найденное значение максимального айди
+    '''
     max_id = 0
-    for contact in contact_list['users']:
+    for contact in contacts['users']:
         if contact['id'] > max_id:
             max_id = contact['id']
     return max_id
 
 
-# 4. Добавление контакта
-def add_contact(contacts):
+def add_contact(contacts: Dict[str, List[Dict[str, Union[str, int]]]]) -> Dict[str, List[Dict[str, Union[str, int]]]]:
+    '''
+    Добавление контакта
+
+    Args:
+        contacts (dict): первоначальный словарь с контактами
+
+    Returns:
+        contacts (dict): словарь с контактами после добавления
+    '''
     name = input("Введите имя ")
     surname = input("Введите фамилию ")
     phone_number = input("Введите номер телефона ")
@@ -100,8 +143,13 @@ def add_contact(contacts):
     return contacts
 
 
-# 5. Поиск по контактам можно делать отдельно по полям (имя, телефон, комментарий), так и общий (поисковое слово ищет сразу во всех полях контакта)
-def find_contact(contacts):
+def find_contact(contacts: Dict[str, List[Dict[str, Union[str, int]]]]) -> None:
+    '''
+    Поиск по контактам можно делать отдельно по полям (имя, телефон, комментарий), так и общий (поисковое слово ищет сразу во всех полях контакта)
+
+    :param contacts: словарь с контактами для поиска
+    :returns: None
+    '''
     str_for_search = input('Введите строку для поиска ')
     contact_list = []
     for contact in contacts['users']:
@@ -115,8 +163,13 @@ def find_contact(contacts):
         print(f"Ни один контакт не был найден по строке {str_for_search} ")
 
 
-# 6 Изменение контакта
-def edit_contact(contacts):
+def edit_contact(contacts: Dict[str, List[Dict[str, Union[str, int]]]]) -> None:
+    '''
+    Изменение контакта
+
+    :param contacts: словарь со всеми контактами
+    :return: None
+    '''
     id = input("Введите айди контакта для изменения ")
     if id.isdecimal():
         for contact in contacts['users']:
@@ -215,7 +268,8 @@ def delete_contact(contacts):
             print("Необходимо выбрать одно из предложенных ниже действий.", end=' ')
 
 
-def menu():
+def menu() -> None:
+    '''Основная функция - вызывает другие в зависимости от пункта меню, выбранного пользователем'''
     choice = 1
     is_file_opened = False
     is_info_saved = True
