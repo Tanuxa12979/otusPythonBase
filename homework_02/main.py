@@ -1,4 +1,4 @@
-from homework_02.contactController import ContactController
+from homework_02.contactController import main
 
-if __name__ == __main__:
-    ContactController.main()
+if __name__ == '__main__':
+    main()

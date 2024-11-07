@@ -3,20 +3,28 @@
 class WorkWithConsole:
 
     @staticmethod
+    def print_menu_list():
+        options = [
+            'открыть файл',
+            'сохранить файл',
+            'показать все контакты',
+            'добавить контакт',
+            'найти контакт',
+            'изменить контакт',
+            'удалить контакт',
+            'выход']
+        print('\n', "-"*50, sep='\n')
+        print("Выберите действие: ")
+        for i in range(1, len(options)+1):
+            print(f'{i}. {options[i-1]} ')
+
+    @staticmethod
     def choose_menu():
-        choice = input('''
-        ------------------------------
-        Выберите действие:
-        1 - открыть файл
-        2 - сохранить файл
-        3 - показать все контакты
-        4 - добавить контакт
-        5 - найти контакт
-        6 - изменить контакт
-        7 - удалить контакт
-        8 - выход
-        ''')
-        return choice
+        WorkWithConsole.print_menu_list()
+        return input("\nВведите значение:  ")
+
+    @staticmethod
+    def print_err(msg):
+        print(msg)
 
 
-print(WorkWithConsole.choose_menu())
