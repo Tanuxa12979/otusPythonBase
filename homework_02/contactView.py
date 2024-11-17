@@ -1,10 +1,11 @@
-#print input
+from typing import Dict, Union, List
+
 
 class WorkWithConsole:
 
     @staticmethod
     def print_menu_list():
-        options = [
+        menu_list = [
             'открыть файл',
             'сохранить файл',
             'показать все контакты',
@@ -15,8 +16,8 @@ class WorkWithConsole:
             'выход']
         print('\n', "-"*50, sep='\n')
         print("Выберите действие: ")
-        for i in range(1, len(options)+1):
-            print(f'{i}. {options[i-1]} ')
+        for i, item in enumerate(menu_list):
+            print(f'{i + 1}. {item} ')
 
     @staticmethod
     def choose_menu():
@@ -24,7 +25,40 @@ class WorkWithConsole:
         return input("\nВведите значение:  ")
 
     @staticmethod
-    def print_err(msg):
+    def print_msg(msg):
         print(msg)
+
+
+    @staticmethod
+    def ask_user(msg):
+        return input(msg)
+
+
+    @staticmethod
+    def show_contact(contact: Dict[str, Union[str, int]]) -> None:
+        '''
+            Вывод данных о контакте в консоль
+
+            :param contact: словарь с данными о контакте
+            :returns: None
+        '''
+        print('Контакт: ', contact['id'], end='\n')
+        print('Имя: ', contact['name'])
+        print('Фамилия: ', contact['surname'])
+        print('Номер телефона: ', contact['phone_number'])
+        print('Комментарий: ', contact['comment'], end='\n\n')
+
+    @staticmethod
+    def show_contact_list(contacts: List[Dict[str, Union[str, int]]]) -> None:
+        '''
+            Вывод списка контактов в консоль
+
+            :param contacts: первоначальный словарь с контактами
+            :returns: None
+        '''
+        print('\n', '*' * 30, '', sep = '\n')
+        for contact in contacts:
+            WorkWithConsole.show_contact(contact)
+        print("Конец записной книжки\n")
 
 

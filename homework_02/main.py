@@ -1,4 +1,4 @@
-from homework_02.contactController import main
+from homework_02.contactController import start
 
 if __name__ == '__main__':
-    main()
+    start()
