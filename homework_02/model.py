@@ -5,6 +5,7 @@ import os
 class FileIsNotJson(Exception):
     pass
 
+
 class ContactFieldsAreEmpty(Exception):
     pass
 
@@ -19,7 +20,7 @@ class FileWork:
 
     def write_to_file(self, contacts: dict[str, list[dict[str, str]]]) -> None:
         """
-
+        Запись данных в файл
         :param contacts: словарь: ключ users значение - список словарей контактов
         :return: none
         """

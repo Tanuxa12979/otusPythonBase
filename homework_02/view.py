@@ -45,7 +45,7 @@ def print_phonebook(contacts: dict[int,dict[str, str]]) -> None:
         print(' '*4, 'comment: ', value['comment'], '\n')
 
 
-def add_contact_ask_fields() -> dict[str. str]:
+def add_contact_ask_fields() -> dict[str, str]:
     """
     Получение от пользователя значений полей нового контакта и формирование словаря
     :return: словарь, где ключи - поля контакта, значения - введенные пользователем значения
