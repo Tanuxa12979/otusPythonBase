@@ -15,7 +15,7 @@ class IdNotFound(Exception):
 
 
 class FileWork:
-    def __init__(self, path='contacts.json'):
+    def __init__(self, path='data/contacts.json'):
         self.path = path
 
     def write_to_file(self, contacts: dict[str, list[dict[str, str]]]) -> None:
@@ -53,7 +53,7 @@ class FileWork:
 
 class PhoneBook:
 
-    def __init__(self, contacts: dict[int, dict[str, str]] = {}) ->dict[int, dict[str, str]]:
+    def __init__(self, contacts: dict[int, dict[str, str]] = {}) -> dict[int, dict[str, str]]:
         self.contacts = contacts
 
     def add_contact(self, contact: dict[str, str]) -> dict[int, dict[str, str]]:
