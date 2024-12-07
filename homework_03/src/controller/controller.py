@@ -1,10 +1,10 @@
 from typing import Optional, Union
 
-from homework_03.view import view
-from homework_03.view import text_ru
+from homework_03.src.view import view
+from homework_03.src.view import text_ru
 import logging
-from homework_03.model import FileWork
-from homework_03.model import PhoneBook
+from homework_03.src.model import FileWork
+from homework_03.src.model import PhoneBook
 
 
 class FieldNotFound(Exception):
@@ -24,7 +24,7 @@ class Controller:
         self.logger2 = logging.getLogger(__name__)
         self.logger2.setLevel(logging.INFO)
         # настройка обработчика и форматировщика для logger2
-        handler2 = logging.FileHandler(f"logs/{__name__}.log", mode='w')
+        handler2 = logging.FileHandler(f"../logs/{__name__}.log", mode='w')
         formatter2 = logging.Formatter("%(asctime)s %(levelname)s %(message)s")
         # добавление форматировщика к обработчику
         handler2.setFormatter(formatter2)
@@ -77,7 +77,7 @@ class Controller:
         :return: true в случае успешного открытия, false иначе
         """
         if user_path == '':
-            view.print_msg(text_ru.successfully_chose_file(file.path))
+            view.print_msg(text_ru.successfully_chose_file(file.path[2:]))
             return True
         try:
             FileWork.FileWork.check_chosen_file(user_path)
@@ -216,7 +216,7 @@ def start():
         controller.menu_validation(choice, len(text_ru.MENU))
         if choice == '1':
             controller.open_file(file)
-        if not controller.is_file_opened and choice in (str(i) for i in range(1, 7)):
+        if not controller.is_file_opened and choice in (str(i) for i in range(2, 7)):
             view.print_msg(text_ru.FILE_IS_NOT_OPEN)
         elif choice == '2':
             controller.write_to_file(file)

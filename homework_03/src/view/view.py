@@ -1,4 +1,4 @@
-from homework_03.view import text_ru
+from homework_03.src.view import text_ru
 
 
 def print_menu() -> None:
@@ -31,18 +31,15 @@ def print_msg(msg: str) -> None:
     print('-' * len(msg))
 
 
-def print_phonebook(contacts: dict[int,dict[str, str]]) -> None:
+def print_phonebook(contacts: dict[int, dict[str, str]]) -> None:
     """
     Вывод информации по переданным контактам в консоль
     :param contacts: словарь словарей с переданными контактами
     :return: none
     """
     for key, value in contacts.items():
-        print('Контакт с id:', key)
-        print(' '*4, 'name: ', value['name'])
-        print(' '*4, 'surname: ', value['surname'])
-        print(' '*4, 'phone_number: ', value['phone_number'])
-        print(' '*4, 'comment: ', value['comment'], '\n')
+        print(f'| Contact {key: <4} |name:{value["name"]: <8}| surname:{value["surname"]:<8} |phone_number:{value["phone_number"]:<15} |comment:{value["comment"]:<15} |')
+    print("\n")
 
 
 def add_contact_ask_fields() -> dict[str, str]:

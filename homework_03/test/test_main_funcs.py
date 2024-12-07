@@ -1,22 +1,5 @@
 import pytest
-from homework_03.src.controller.controller import Controller
-from homework_03.src.model.FileWork import FileWork
-import os
-
-
-@pytest.fixture
-def create_file_and_controller():
-    file = FileWork()
-    controller = Controller()
-    yield file, controller
-
-
-@pytest.fixture()
-def create_and_delete_file():
-    with open('1.json', 'x'):
-        pass
-    yield
-    os.remove('1.json')
+from homework_03.test.conftest import create_file_and_controller, create_and_delete_file
 
 
 # тесты на открытие файла
@@ -29,7 +12,7 @@ def test_existing_file_check_and_add(create_file_and_controller, create_and_dele
 def test_default_file_check_and_add(create_file_and_controller):
     file, controller = create_file_and_controller
     controller.file_check_and_add(file, '')
-    assert file.path == 'data/contacts.json'
+    assert file.path == '../data/contacts.json'
 
 
 def test_not_existing_file_check_and_add(create_file_and_controller):
@@ -93,7 +76,7 @@ def test_find_not_existing_contact(create_file_and_controller):
         3: {"name": "Nik", "surname": "Ten", "phone_number": "+79182223245", "comment": "Older sister"}
     }
     res = controller.find_contact('Ma')
-    assert res == False
+    assert res is False
 
 
 #тест на изменение контактов
@@ -116,7 +99,7 @@ def test_change_contact(user_id, field, new_value, create_file_and_controller):
     assert controller.phonebook.contacts[user_id][dict_fields[field]] == new_value
 
 
-#тест на удаление контактов
+#тесты на удаление контактов
 def test_delete_existing_contact(create_file_and_controller):
     file, controller = create_file_and_controller
     controller.phonebook.contacts = {}
