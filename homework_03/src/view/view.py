@@ -1,4 +1,4 @@
-import text_ru
+from homework_03.view import text_ru
 
 
 def print_menu() -> None:

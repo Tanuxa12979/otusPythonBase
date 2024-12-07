@@ -1,6 +1,6 @@
 import pytest
-from controller import Controller
-from model import FileWork
+from homework_03.src.controller.controller import Controller
+from homework_03.src.model.FileWork import FileWork
 import os
 
 

@@ -1,12 +1,15 @@
 from typing import Optional, Union
 
-import view
-import model
-import text_ru
+from homework_03.view import view
+from homework_03.view import text_ru
 import logging
+from homework_03.model import FileWork
+from homework_03.model import PhoneBook
+
 
 class FieldNotFound(Exception):
     pass
+
 
 class MenuIsNotValid(Exception):
     pass
@@ -16,7 +19,7 @@ class Controller:
     def __init__(self):
         self.is_file_opened = False
         self.is_info_saved = True
-        self.phonebook = model.PhoneBook()
+        self.phonebook = PhoneBook.PhoneBook()
         # Добавление логирования
         self.logger2 = logging.getLogger(__name__)
         self.logger2.setLevel(logging.INFO)
@@ -28,9 +31,7 @@ class Controller:
         # добавление обработчика к логгеру
         self.logger2.addHandler(handler2)
 
-
-
-    def open_file(self, file: model.FileWork) -> None:
+    def open_file(self, file: FileWork.FileWork) -> None:
         """
         открытие файла и запись списка конактов в phonebook
         :param file: файловый объект
@@ -57,7 +58,7 @@ class Controller:
                 self.is_file_opened = True
                 self.logger2.info(f"File {file.path} was open. Contacts data was read successfully")
 
-    def write_to_file(self, file: model.FileWork) -> None:
+    def write_to_file(self, file: FileWork.FileWork) -> None:
         """
         Сохранение информации в файл
         :param file: файловый объект
@@ -68,7 +69,7 @@ class Controller:
         self.is_info_saved = True
         view.print_msg(text_ru.file_saved_info(file.path))
 
-    def file_check_and_add(self, file: model.FileWork, user_path: str) -> bool:
+    def file_check_and_add(self, file: FileWork.FileWork, user_path: str) -> bool:
         """
         Проверка существования файла и его открытие
         :param file: файловый объект
@@ -79,12 +80,12 @@ class Controller:
             view.print_msg(text_ru.successfully_chose_file(file.path))
             return True
         try:
-            model.FileWork.check_chosen_file(user_path)
+            FileWork.FileWork.check_chosen_file(user_path)
         except FileNotFoundError:
             view.print_msg(text_ru.FILE_NOT_FOUND_MSG)
             self.logger2.error(f"File %s wasn't found", user_path)
             return False
-        except model.FileIsNotJson:
+        except FileWork.FileIsNotJson:
             view.print_msg(text_ru.FILE_IS_NOT_JSON_MSG)
             self.logger2.error("Format of chosen file isn't json")
             return False
@@ -101,7 +102,7 @@ class Controller:
         """
         try:
             new_contact = self.phonebook.add_contact(contact_fields)
-        except model.ContactFieldsAreEmpty:
+        except PhoneBook.ContactFieldsAreEmpty:
             view.print_msg(text_ru.ADD_CONTACT_FIELDS_ARE_EMPTY)
             self.logger2.exception("Trying to add contact with empty fields")
             return False
@@ -111,7 +112,7 @@ class Controller:
             self.logger2.info("User %s was added successfully", new_contact)
             return True
 
-    def before_exit(self, file: model.FileWork) -> None:
+    def before_exit(self, file: FileWork.FileWork) -> None:
         """
         запрос на сохранение перед завершением работы программы при наличии несохраненных данных
         :param file: файловый объект
@@ -129,7 +130,7 @@ class Controller:
         """
         try:
             self.phonebook.delete_contact_by_id(int(id_contact))
-        except model.IdNotFound:
+        except PhoneBook.IdNotFound:
             view.print_msg(text_ru.CONTACT_ID_NOT_FOUNT)
             self.logger2.exception("Contact to delete doesn't exist")
             return False
@@ -173,7 +174,7 @@ class Controller:
             view.print_msg(text_ru.CONTACT_CHANGE_INCORRECT_ID)
             self.logger2.exception("Contact with id %s wasn't found", user_id)
             return False
-        except (KeyError, model.IdNotFound):
+        except (KeyError, PhoneBook.IdNotFound):
             view.print_msg(text_ru.CONTACT_NOT_FOUND)
             self.logger2.exception("Contact with id %s wasn't found", id_to_delete)
             return False
@@ -186,7 +187,6 @@ class Controller:
             view.print_phonebook({id_to_delete: self.phonebook.contacts[id_to_delete]})
             self.logger2.info("Contact with id %s was changed successfully", id_to_delete)
             return True
-
 
     def menu_validation(self, choice: str, len_menu: int) -> None:
         """
@@ -208,7 +208,7 @@ def start():
     Основная функция работы с меню
     """
     controller = Controller()
-    file = model.FileWork()
+    file = FileWork.FileWork()
     choice = '0'
     while choice != '8':
         view.print_menu()
