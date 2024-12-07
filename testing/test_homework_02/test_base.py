@@ -3,7 +3,7 @@ from faker import Faker
 
 fake = Faker()
 
-homework = pytest.importorskip("homework_02")
+homework = pytest.importorskip("homework_03")
 base = homework.base
 exceptions = homework.exceptions
 
