@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Главная{% endblock title %}</title>
+</head>
+<body>
+{% block content %}
+<p class="h4" style= "margin: 50px">Добро пожаловать на наш сайт!</p>
+<ul style="margin: 10px 20px 30px 40px;"  >
+  <li><b>Здесь вы можете:</b>
+    <ul>
+      <li>Просмотреть список ближайших событий - для этого в панели навигации выберите 'События'</li>
+      <li>Создать новое событие или удалить событие.</li>
+        <li>Изменить событие с неактуальной информацией</li>
+        <li>Удалить событие, которое уже состоялось или отменилось</li>
+    </ul>
+  </li>
+  <br>
+{% endblock content %}
+</body>
+</html>
