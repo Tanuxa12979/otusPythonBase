@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}О нас{% endblock title %}</title>
+</head>
+<body>
+{% block content %}
+<p class="h4" style= "margin-left: 50px"> Информация о нас:</p>
+<ul style="margin: 10px 20px 30px 40px;"  >
+  <li><b>Наша цель:</b>
+    <ul>
+      <li>Делать жизнь людей интереснее добавляя в в нее новые события.</li>
+      <li>Способствовать культурному развитию людей.</li>
+    </ul>
+  </li>
+  <br>
+  <li><b>Основной функционал:</b>
+    <ul>
+      <li>просмотр событий с описанием и датой</li>
+      <li>что-то еще</li>
+      <li>что-то еще 2</li>
+    </ul>
+  </li>
+  <br>
+  <li><b>Разработчик:</b> Жигулина Т.С.</li>
+</ul>
+{% endblock content %}
+</body>
+</html>
