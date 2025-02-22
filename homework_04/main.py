@@ -14,7 +14,6 @@
 """
 import asyncio
 import nest_asyncio
-from sqlalchemy import text
 
 from models import async_session_factory, engine, Base, User, Post
 from jsonplaceholder_requests import fetch_users_data, fetch_posts_data
@@ -28,29 +27,20 @@ async def create_tables():
         await conn.run_sync(Base.metadata.create_all)
 
 
-async def add_user(id: int, name: str, surname: str, email: str):
+async def add_posts(posts_data):
     async with async_session_factory() as session:
         async with session.begin():
-            new_user = User(id=id, name=name, surname=surname, email=email)
-            session.add(new_user)
-        await session.commit()
-
-async def add_post(id: int, title: str, body: str, user_id: int):
-    async with async_session_factory() as session:
-        async with session.begin():
-            new_post = Post(id=id, title=title, body=body, user_id=user_id)
-            session.add(new_post)
+            new_posts = [Post(id=post["id"], title=post["title"], body=post["body"], user_id=post["userId"]) for post in posts_data]
+            session.add_all(new_posts)
         await session.commit()
 
 
 async def add_users(users_data):
-    for user in users_data:
-        await add_user(user["id"], user["name"], user["username"], user["email"])
-
-
-async def add_posts(posts_data):
-    for post in posts_data:
-        await add_post(post["id"], post["title"], post["body"], post["userId"])
+    async with async_session_factory() as session:
+        async with session.begin():
+            new_users = [User(id=user["id"], name=user["name"], username=user["username"], email=user["email"]) for user in users_data]
+            session.add_all(new_users)
+        await session.commit()
 
 
 async def close_database():
@@ -73,19 +63,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-#
-# async def async_main():
-#     async with async_session_factory() as session:
-#         async with session.begin():
-#             result = await session.execute(text("SELECT 'hello world'"))
-#             print(result.all())
-
-
-# Запуск асинхронной функции
-# if __name__ == "__main__":
-#     asyncio.run(create_tables())
-    #asyncio.get_event_loop().run_until_complete(create_tables())
