@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from homework_04.models.user import User
-from homework_04.schemas.user import UserCreate, UserResponse  # Импортируем схемы
+from homework_04.schemas.user import UserCreate, UserRead  # Импортируем схемы
 from homework_04.database import SessionLocal, engine
 
 # Создаем таблицы в базе данных, если они еще не созданы
@@ -20,7 +20,7 @@ def get_db():
 
 
 # Эндпоинт для получения пользователя по имени пользователя
-@router.get("/{username}", response_model=UserResponse)
+@router.get("/{username}", response_model=UserRead)
 async def get_user(username: str, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.username == username).first()
     if user is None:
@@ -29,7 +29,7 @@ async def get_user(username: str, db: Session = Depends(get_db)):
 
 
 # Эндпоинт для создания нового пользователя
-@router.post("/", response_model=UserResponse)
+@router.post("/", response_model=UserRead)
 async def create_user(user: UserCreate, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.username == user.username).first()
     if db_user:

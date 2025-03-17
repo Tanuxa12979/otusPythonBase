@@ -4,11 +4,11 @@ services:
       dockerfile: docker-build/app/Dockerfile
       context: .
     environment:
-      DB__HOST: pg
+      DB__HOST: localhost
       DB__PORT: 5432
       DB__DATABASE: blog
       DB__USER: app
-      DB__PASSWORD: ${PG_PASSWD}
+      DB__PASSWORD: apppassword
     ports:
       - "5000:8000"
     depends_on:
@@ -16,14 +16,14 @@ services:
         condition: service_healthy
 
   pg:
-    image: postgres:17-alpine
+    image: postgres:16.4
     environment:
       POSTGRES_DB: blog
       POSTGRES_USER: app
-      POSTGRES_PASSWORD: ${PG_PASSWD}
+      POSTGRES_PASSWORD: apppassword
       PGDATA: /var/lib/postgresql/data
-#    ports:
-#      - "5432:5432"
+    ports:
+      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:

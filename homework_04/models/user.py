@@ -23,4 +23,4 @@ class User(Base):
         unique=True,
     )
 
-    posts = relationship("Post", back_populates="user")
+    #posts = relationship("Post", back_populates="user")
