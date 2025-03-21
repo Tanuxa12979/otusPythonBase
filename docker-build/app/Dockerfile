@@ -1,4 +1,4 @@
-FROM python:3.9-slim-bookworm
+FROM python:3.12-bookworm
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -15,5 +15,7 @@ COPY  . .
 
 EXPOSE 8000
 
-CMD ["uvicorn", "homework_04\main:app", "--host", "0.0.0.0", "--port", "8000"]
+#CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+CMD ["gunicorn", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "homework_04.main:app", "-b", "0.0.0.0:8000"]
 

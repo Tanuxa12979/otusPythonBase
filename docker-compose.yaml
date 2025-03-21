@@ -4,13 +4,13 @@ services:
       dockerfile: docker-build/app/Dockerfile
       context: .
     environment:
-      DB__HOST: localhost
+      DB__HOST: pg
       DB__PORT: 5432
       DB__DATABASE: blog
       DB__USER: app
       DB__PASSWORD: apppassword
     ports:
-      - "5000:8000"
+      - "8000:8000"
     depends_on:
       pg:
         condition: service_healthy
