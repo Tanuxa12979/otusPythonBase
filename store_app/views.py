@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Product
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Product, Category
+from .forms import ProductForm
 # Create your views here.
 
 def index(request):
@@ -13,3 +14,22 @@ def product(request, id: int):
     product = get_object_or_404(Product, pk=id)
     context = {"product": product}
     return render(request, "store_app/product.html", context=context)
+
+
+def add_product(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            description = form.cleaned_data['description']
+            price = form.cleaned_data['price']
+            category = Category.objects.first()
+            Product.objects.create(name=name, description=description, price=price, category=category)
+            return redirect('index')
+    else:
+        form = ProductForm()
+    context = {
+        'form': form,
+        'title': 'Добавление товара'
+    }
+    return render(request, 'store_app/add_product.html', context=context)

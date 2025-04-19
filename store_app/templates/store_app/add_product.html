@@ -1,0 +1,15 @@
+{% extends 'store_app/base.html' %}
+
+{% block title %} {{ product.title }} {% endblock %}
+
+{% block content %}
+
+
+    <h1>{{ product.title }}</h1>
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Добавить товар</button>
+    </form>
+    <a href="{% url 'index' %}" class="btn btn-secondary mt-3">К списку товаров</a>
+{% endblock %}
