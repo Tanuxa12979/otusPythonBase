@@ -4,6 +4,9 @@ from .forms import ProductForm
 # Create your views here.
 
 def index(request):
+    return render(request, "store_app/base.html")
+
+def products_list(request):
     products = Product.objects.all()
     context = {"products": products}
     return render(request, "store_app/products_list.html", context=context)
@@ -25,7 +28,7 @@ def add_product(request):
             price = form.cleaned_data['price']
             category = Category.objects.first()
             Product.objects.create(name=name, description=description, price=price, category=category)
-            return redirect('index')
+            return redirect('products_list')
     else:
         form = ProductForm()
     context = {
