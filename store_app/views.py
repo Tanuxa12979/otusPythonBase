@@ -13,7 +13,6 @@ def products_list(request):
 
 
 def product(request, id: int):
-    #product = Product.objects.get(id=id)
     product = get_object_or_404(Product, pk=id)
     context = {"product": product}
     return render(request, "store_app/product.html", context=context)
@@ -36,3 +35,29 @@ def add_product(request):
         'title': 'Добавление товара'
     }
     return render(request, 'store_app/add_product.html', context=context)
+
+
+def edit_product(request, id_product):
+    product = get_object_or_404(Product, pk=id_product)
+
+    if request.method == 'POST':
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            product.name = form.cleaned_data['name']
+            product.price = form.cleaned_data['price']
+            product.description = form.cleaned_data['description']
+            product.save()
+            return redirect('products_list')
+    else:
+        form = ProductForm(initial={
+            'name': product.name,
+            'price': product.price,
+            'description': product.description,
+        })
+
+    context = {
+        'form': form,
+        'title': 'Изменение продукта'
+    }
+    return render(request, 'store_app/edit_product.html', context=context)
+
